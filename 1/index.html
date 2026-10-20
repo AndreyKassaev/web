@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотечный Каталог</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- 1. ТУЛБАР -->
+    <header class="toolbar">
+        <div class="logo">📚</div>
+        <h1 class="title">Библиотечный Каталог</h1>
+    </header>
+
+    <!-- Основной контейнер страницы -->
+    <main class="main-content">
+
+        <!-- 2. СТРОКА ПОИСКА -->
+        <section class="search-section">
+            <input type="text" class="search-input" placeholder="Поиск по названию, автору, ISBN или ключевым словам...">
+            <button class="search-btn">Найти</button>
+        </section>
+
+        <!-- 3. ПАРАМЕТРЫ ФИЛЬТРА -->
+        <section class="filter-section">
+            <div class="filter-group">
+                <label>Жанр / Категория</label>
+                <select class="filter-select">
+                    <option>Все категории</option>
+                    <option>Программирование</option>
+                    <option>Физика</option>
+                    <option>История</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Год издания</label>
+                <select class="filter-select">
+                    <option>Любой год</option>
+                    <option>После 2020 г.</option>
+                    <option>2010 - 2020 гг.</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Язык</label>
+                <select class="filter-select">
+                    <option>Любой язык</option>
+                    <option>Русский</option>
+                    <option>Английский</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- 4. ВЫБОРКА (РЕЗУЛЬТАТЫ) -->
+        <section class="catalog-results">
+            <!-- Книга 1 -->
+            <div class="book-card">
+                <div class="book-info">
+                    <h3>Чистый код</h3>
+                    <p><strong>Автор:</strong> Роберт Мартин</p>
+                    <p><strong>Год:</strong> 2019</p>
+                    <p><strong>Категория:</strong> Программирование</p>
+                </div>
+                <div class="book-status">Доступно (3 шт.)</div>
+            </div>
+
+            <!-- Книга 2 -->
+            <div class="book-card">
+                <div class="book-info">
+                    <h3>Краткая история времени</h3>
+                    <p><strong>Автор:</strong> Стивен Хокинг</p>
+                    <p><strong>Год:</strong> 2015</p>
+                    <p><strong>Категория:</strong> Физика</p>
+                </div>
+                <div class="book-status">Доступно (1 шт.)</div>
+            </div>
+
+            <!-- Книга 3 -->
+            <div class="book-card">
+                <div class="book-info">
+                    <h3>Совершенный код</h3>
+                    <p><strong>Автор:</strong> Стив Макконнелл</p>
+                    <p><strong>Год:</strong> 2017</p>
+                    <p><strong>Категория:</strong> Программирование</p>
+                </div>
+                <div class="book-status" style="color: #e74c3c;">На руках (до 25.10)</div>
+            </div>
+
+            <!-- Книга 4 -->
+            <div class="book-card">
+                <div class="book-info">
+                    <h3>Искусство программирования</h3>
+                    <p><strong>Автор:</strong> Дональд Кнут</p>
+                    <p><strong>Год:</strong> 2002</p>
+                    <p><strong>Категория:</strong> Программирование</p>
+                </div>
+                <div class="book-status">Доступно (2 шт.)</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 5. ФУТЕР -->
+    <footer class="footer">
+        <p>© 2026 Библиотечный Каталог. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>

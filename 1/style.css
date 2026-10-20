@@ -1,0 +1,175 @@
+/* Базовые сбросы стилей */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    min-height: 100vh;
+    /* Flexbox для распределения тулбара, контента и футера */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 1. ТУЛБАР */
+.toolbar {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 15px 20px;
+    /* Flexbox для выравнивания элементов тулбара */
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    flex: 0 1 auto; /* Логотип занимает свое место */
+}
+
+.title {
+    font-size: 20px;
+    text-align: center;
+    flex: 1; /* Растягивается, чтобы занять центр */
+    margin-right: 40px; /* Компенсация ширины логотипа для идеального центрирования */
+}
+
+/* Контейнер для основного содержимого */
+.main-content {
+    flex: 1; /* Заставляет контент занимать все оставшееся место, прижимая футер вниз */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Отступы между блоками */
+}
+
+/* 2. СТРОКА ПОИСКА */
+.search-section {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-btn {
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-btn:hover {
+    background-color: #2980b9;
+}
+
+/* 3. ПАРАМЕТРЫ ФИЛЬТРА */
+.filter-section {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    /* Flexbox для размещения фильтров в ряд */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7f8c8d;
+}
+
+.filter-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+/* 4. ВЫБОРКА (СЕТКА КНИГ) */
+.catalog-results {
+    /* Flexbox для карточек книг */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.book-card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    padding: 15px;
+    width: calc(25% - 15px); /* 4 колонки по умолчанию */
+    min-width: 220px;
+    /* Внутренний Flexbox для правильного распределения контента карточки */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.book-info p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.book-status {
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #27ae60; /* Зеленый для "В наличии" */
+}
+
+/* 5. ФУТЕР */
+.footer {
+    background-color: #34495e;
+    color: #bdc3c7;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+/* Адаптивность для карточек книг под разные экраны */
+@media (max-width: 992px) {
+    .book-card { width: calc(33.333% - 14px); } /* 3 колонки */
+}
+@media (max-width: 768px) {
+    .book-card { width: calc(50% - 10px); } /* 2 колонки */
+    .toolbar { flex-direction: column; gap: 10px; }
+    .title { margin-right: 0; }
+}
+@media (max-width: 500px) {
+    .book-card { width: 100%; } /* 1 колонка */
+    .filter-section { flex-direction: column; align-items: stretch; }
+}
