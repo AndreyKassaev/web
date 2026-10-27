@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ввод данных</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Регистрация сессии</h2>
+    <form id="mainForm" novalidate>
+        
+        <div class="form-group" id="nameGroup">
+            <label for="username">Ваше имя</label>
+            <input type="text" id="username" placeholder="Иван Иванов">
+            <div class="error-message">Имя должно содержать не менее 2 символов</div>
+        </div>
+
+        <div class="form-group" id="emailGroup">
+            <label for="email">Электронная почта</label>
+            <input type="email" id="email" placeholder="example@mail.com">
+            <div class="error-message">Введите корректный email адрес</div>
+        </div>
+
+        <div class="form-group" id="fileGroup">
+            <label>Изображение профиля (до 5 МБ, JPG/PNG)</label>
+            <div class="file-drop-area" id="dropArea">
+                <span class="file-btn">📁 Выбрать изображение</span>
+                <span class="file-msg" id="fileMsg">или перетащите его сюда</span>
+                <input class="file-input" type="file" id="fileInput" accept=".jpg,.jpeg,.png">
+            </div>
+            <div class="error-message" id="fileError">Загрузите картинку (макс. 5МБ)</div>
+        </div>
+
+        <button type="submit" class="submit-btn">Отправить данные</button>
+        <div class="status-msg" id="statusMsg"></div>
+    </form>
+</div>
+
+<script src="form.js"></script>
+</body>
+</html>

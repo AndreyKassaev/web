@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="form-container result-card">
+    <h2>Данные пользователя</h2>
+    
+    <div class="session-badge" id="sessionBadge">Сессия не найдена</div>
+
+    <div class="profile-preview">
+        <img id="viewImage" src="" alt="Аватар пользователя" style="display: none;">
+        <div id="noImage" class="no-image">Нет изображения</div>
+    </div>
+
+    <div class="info-group">
+        <span class="info-label">Имя:</span>
+        <span class="info-value" id="viewName">-</span>
+    </div>
+
+    <div class="info-group">
+        <span class="info-label">Email:</span>
+        <span class="info-value" id="viewEmail">-</span>
+    </div>
+
+    <div class="info-group">
+        <span class="info-label">ID Сессии (Cookie):</span>
+        <span class="info-value token" id="viewToken">-</span>
+    </div>
+
+    <button onclick="logout()" class="submit-btn logout-btn">Выйти (Удалить куку)</button>
+</div>
+
+<script src="result.js"></script>
+</body>
+</html>
