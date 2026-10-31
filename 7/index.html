@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Локальные JS Компоненты</title>
+    
+    <!-- Подключаем локальный CSS слайдера Swiper -->
+    <link rel="stylesheet" href="libs/swiper-bundle.min.css" />
+    
+    <!-- Собственные стили -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+        <h1>Интерактивная панель компонентов</h1>
+
+        <!-- СЕКЦИЯ 1: Карусель изображений (Swiper) -->
+        <section class="box">
+            <h2>1. Карусель изображений</h2>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="./img/italy-beach.webp" alt="Image 1"></div>
+                    <div class="swiper-slide"><img src="./img/volga.webp" alt="Image 2"></div>
+                    <div class="swiper-slide"><img src="./img/embankment.webp" alt="Image 3"></div>
+                </div>
+                <!-- Элементы управления слайдером -->
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ 2: Форма с валидацией (JustValidate) -->
+        <section class="box">
+            <h2>2. Форма с валидацией</h2>
+            <form id="form" autocomplete="off">
+                <div class="form-group">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" name="name" placeholder="Введите имя">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="example@mail.com">
+                </div>
+                <button type="submit">Отправить</button>
+            </form>
+        </section>
+
+        <!-- СЕКЦИЯ 3: График (Chart.js) -->
+        <section class="box">
+            <h2>3. Диаграмма (Статистика за неделю)</h2>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ 4: Drag n’ Drop (SortableJS) -->
+        <section class="box">
+            <h2>4. Drag n' Drop список</h2>
+            <ul id="drag-list" class="sortable-list">
+                <li><span>☰</span> Элемент 1 (Перетащи меня)</li>
+                <li><span>☰</span> Элемент 2 (Или меня)</li>
+                <li><span>☰</span> Элемент 3 (Поменяй местами)</li>
+                <li><span>☰</span> Элемент 4 (В самый верх!)</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Подключаем скрипты локально из папки libs -->
+    <script src="libs/swiper-bundle.min.js"></script>
+    <script src="libs/just-validate.production.min.js"></script>
+    <script src="libs/chart.umd.js"></script>
+    <script src="libs/sortable.min.js"></script>
+
+    <!-- Собственный скрипт -->
+    <script src="script.js"></script>
+</body>
+</html>

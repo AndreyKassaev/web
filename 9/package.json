@@ -1,0 +1,10 @@
+{
+  "name": "node-3-tier-app",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/app.js",
+  "dependencies": {
+    "express": "^4.19.2",
+    "lowdb": "6.1.1"
+  }
+}

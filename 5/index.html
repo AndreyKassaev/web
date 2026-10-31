@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная панель данных</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Панель управления асинхронными протоколами</h1>
+
+        <div class="grid">
+            <!-- Блок AJAX -->
+            <div class="card">
+                <h2>1. AJAX (JSON & XML)</h2>
+                <button id="btnLoad">Загрузить данные</button>
+
+                <div class="filter-container">
+                    <label for="filterSelect">Фильтр по цене (JSON):</label>
+                    <select id="filterSelect" disabled>
+                        <option value="all">Все товары</option>
+                        <option value="cheap">До 50 000 ₽</option>
+                        <option value="expensive">От 50 000 ₽</option>
+                    </select>
+                </div>
+
+                <h3>Товары (JSON)</h3>
+                <ul id="jsonOutput" class="data-list"></ul>
+
+                <h3>Склад (XML — Измененный статус)</h3>
+                <ul id="xmlOutput" class="data-list"></ul>
+            </div>
+
+            <!-- Блок Формы -->
+            <div class="card">
+                <h2>2. Отправка формы (AJAX POST)</h2>
+                <form id="ajaxForm">
+                    <label for="itemName">Название товара:</label>
+                    <input type="text" id="itemName" required placeholder="Например: Планшет">
+
+                    <label for="itemPrice">Цена товара (₽):</label>
+                    <input type="number" id="itemPrice" required placeholder="Например: 32000">
+
+                    <button type="submit">Отправить форму</button>
+                </form>
+                <p id="formStatus"></p>
+            </div>
+
+            <!-- Блок WebSocket -->
+            <div class="card">
+                <h2>3. WebSockets (Двусторонняя связь)</h2>
+                <input type="text" id="wsInput" placeholder="Введите сообщение серверу...">
+                <button id="btnWsSend">Отправить по WS</button>
+                <h4>Лог сообщений WebSocket:</h4>
+                <div id="wsLog" class="log-box"></div>
+            </div>
+
+            <!-- Блок Server-Sent Events -->
+            <div class="card">
+                <h2>4. Server Sent Events (В одну сторону)</h2>
+                <p>Статус SSE: <span id="sseStatus">Отключено</span></p>
+                <h4>Поток времени с сервера:</h4>
+                <div id="sseLog" class="log-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

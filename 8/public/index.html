@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth & Profile Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { margin-top: 0; color: #333; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="text"], input[type="email"], input[type="password"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #28a745; border: none; color: white; font-size: 16px; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #218838; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-danger:hover { background-color: #c82333; }
+        .btn-secondary { background-color: #007bff; }
+        .btn-secondary:hover { background-color: #0069d9; }
+        .toggle-link { text-align: center; margin-top: 15px; cursor: pointer; color: #007bff; text-decoration: underline; }
+        .hidden { display: none; }
+        .profile-card { text-align: center; }
+        .avatar-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #007bff; }
+        .message { padding: 10px; border-radius: 4px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="msg" class="message hidden"></div>
+
+    <!-- Register Form -->
+    <div id="registerSection">
+        <h2>Регистрация</h2>
+        <form id="registerForm">
+            <div class="form-group"><label>Имя пользователя</label><input type="text" name="username" required></div>
+            <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+            <div class="form-group"><label>Пароль</label><input type="password" name="password" required></div>
+            <div class="form-group"><label>Аватар</label><input type="file" name="avatar" accept="image/*"></div>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <div class="toggle-link" onclick="showSection('login')">Уже есть аккаунт? Войти</div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginSection" class="hidden">
+        <h2>Авторизация</h2>
+        <form id="loginForm">
+            <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+            <div class="form-group"><label>Пароль</label><input type="password" name="password" required></div>
+            <button type="submit">Войти</button>
+        </form>
+        <div class="toggle-link" onclick="showSection('register')">Нет аккаунта? Зарегистрироваться</div>
+    </div>
+
+    <!-- Profile View & Update Section -->
+    <div id="profileSection" class="hidden">
+        <h2>Личный кабинет</h2>
+        <div class="profile-card">
+            <img id="profileAvatar" class="avatar-img" src="" alt="Avatar">
+            <p><strong>Логин:</strong> <span id="profileUsername"></span></p>
+            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+        </div>
+        <hr>
+        <h3>Обновить профиль</h3>
+        <form id="updateForm">
+            <div class="form-group"><label>Новое имя</label><input type="text" name="username" id="updateUsername"></div>
+            <div class="form-group"><label>Новый Email</label><input type="email" name="email" id="updateEmail"></div>
+            <div class="form-group"><label>Новый пароль</label><input type="password" name="password" placeholder="Оставьте пустым для сохранения текущего"></div>
+            <div class="form-group"><label>Сменить аватар</label><input type="file" name="avatar" accept="image/*"></div>
+            <button type="submit" class="btn-secondary">Сохранить изменения</button>
+        </form>
+        <button class="btn-danger" style="margin-top: 20px;" onclick="deleteAccount()">Удалить аккаунт</button>
+        <button style="background-color: #6c757d; margin-top: 10px;" onclick="logout()">Выйти</button>
+    </div>
+</div>
+
+<script>
+    const API_URL = '/api/users';
+    let token = localStorage.getItem('token');
+
+    function showSection(section) {
+        document.getElementById('registerSection').classList.add('hidden');
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('profileSection').classList.add('hidden');
+        document.getElementById(section + 'Section').classList.remove('hidden');
+    }
+
+    function showMsg(text, isError = false) {
+        const msgDiv = document.getElementById('msg');
+        msgDiv.innerText = text;
+        msgDiv.className = `message ${isError ? 'error' : 'success'}`;
+        setTimeout(() => msgDiv.classList.add('hidden'), 4000);
+    }
+
+    // Register
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        try {
+            const res = await fetch(`${API_URL}/register`, { method: 'POST', body: formData });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Ошибка регистрации');
+            showMsg(data.message);
+            showSection('login');
+        } catch (err) {
+            showMsg(err.message, true);
+        }
+    });
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        try {
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Ошибка авторизации');
+            localStorage.setItem('token', data.token);
+            token = data.token;
+            loadProfile();
+        } catch (err) {
+            showMsg(err.message, true);
+        }
+    });
+
+    // Load Profile
+    async function loadProfile() {
+        if (!token) return showSection('login');
+        try {
+            const res = await fetch(`${API_URL}/profile`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                logout();
+                throw new Error('Сессия истекла');
+            }
+            document.getElementById('profileUsername').innerText = data.username;
+            document.getElementById('profileEmail').innerText = data.email;
+            document.getElementById('updateUsername').value = data.username;
+            document.getElementById('updateEmail').value = data.email;
+            document.getElementById('profileAvatar').src = data.avatar || 'https://via.placeholder.com/120';
+            showSection('profile');
+        } catch (err) {
+            showMsg(err.message, true);
+        }
+    }
+
+    // Update Profile
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        try {
+            const res = await fetch(`${API_URL}/profile`, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Ошибка обновления');
+            showMsg(data.message);
+            loadProfile();
+        } catch (err) {
+            showMsg(err.message, true);
+        }
+    });
+
+    // Delete Account
+    async function deleteAccount() {
+        if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) return;
+        try {
+            const res = await fetch(`${API_URL}/profile`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Ошибка удаления');
+            showMsg(data.message);
+            logout();
+        } catch (err) {
+            showMsg(err.message, true);
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('token');
+        token = null;
+        showSection('login');
+    }
+
+    // Init
+    if (token) loadProfile();
+    else showSection('login');
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление пользователями</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background-color: #f9f9f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        ul { list-style: none; padding: 0; }
+        li { background: #eee; margin: 5px 0; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
+        .error { color: red; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Добавить пользователя</h2>
+        <form id="userForm">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+            <button type="submit">Сохранить</button>
+            <div id="errorMsg" class="error"></div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Список пользователей</h2>
+        <ul id="userList"><!-- Данные загрузятся асинхронно --></ul>
+    </div>
+
+    <script>
+        const userForm = document.getElementById('userForm');
+        const userList = document.getElementById('userList');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Функция получения и отрисовки пользователей
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                const users = await response.json();
+                
+                userList.innerHTML = users.map(user => `
+                    <li>
+                        <strong>${user.name}</strong> 
+                        <span>${user.email} (ID: ${user.id})</span>
+                    </li>
+                `).join('');
+            } catch (err) {
+                console.error('Ошибка загрузки:', err);
+            }
+        }
+
+        // Обработчик отправки формы (создание пользователя)
+        userForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Что-то пошло не так');
+                }
+
+                // Сброс формы и обновление списка
+                userForm.reset();
+                loadUsers();
+            } catch (err) {
+                errorMsg.innerText = err.message;
+                errorMsg.style.display = 'block';
+            }
+        });
+
+        // Первичная загрузка при старте страницы
+        loadUsers();
+    </script>
+</body>
+</html>
