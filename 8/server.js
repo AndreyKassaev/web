@@ -4,7 +4,7 @@ const path = require('path');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3008;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/userdb';
 
 // Middleware

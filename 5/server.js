@@ -5,7 +5,7 @@ const os = require('os'); // Подключаем модуль для работ
 const { WebSocketServer } = require('ws');
 
 // Конфигурация сервера
-const PORT = 3000;
+const PORT = 3005;
 
 // Исходные данные для демонстрации
 let jsonData = [

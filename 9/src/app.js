@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import userRoutes from './routing/user.routes.js';
 
 const app = express();
-const PORT = 3000;
+const PORT = 3009;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
